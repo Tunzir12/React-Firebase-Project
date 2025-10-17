@@ -5,5 +5,11 @@
 this will create Frontend folder.
 - select React + javascript packages
 
-Go to Backend Directory and install express.js 
+Now add tailwindcsss using 
+- npm instal tailwindcss tailwindcss/vite
+
+Create and Go to Backend Directory and install express.js 
 - npm install express
+
+# 17th October 2025
+

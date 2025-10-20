@@ -4,7 +4,7 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import Home from './pages/Home'
 import { auth } from '../firebase_config';
-import { onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
+import { onAuthStateChanged} from 'firebase/auth';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -30,16 +30,6 @@ function App() {
     // No need to set localStorage here. Firebase handles the session.
     // The onAuthStateChanged listener will set isAuthenticated to true.
     console.log("Firebase login successful. onAuthStateChanged will update state.");
-  }
-
-  const handleLogout = async () => {
-    try {
-      await firebaseSignOut(auth); // Use Firebase's signOut method
-      // onAuthStateChanged listener will set isAuthenticated to false automatically
-      console.log("Firebase signOut successful.");
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
   }
 
   const ProtectedRoute = ({ children }) => {
@@ -87,7 +77,7 @@ function App() {
           path="/"
           element={
             <ProtectedRoute>
-              <Home onLogout={handleLogout} />
+              <Home />
             </ProtectedRoute>
           }
         />

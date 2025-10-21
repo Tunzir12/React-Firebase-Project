@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import Home from './pages/Home'
+import Navbar from './components/Navbar'
 import { auth } from '../firebase_config';
 import { onAuthStateChanged} from 'firebase/auth';
 
@@ -77,6 +78,7 @@ function App() {
           path="/"
           element={
             <ProtectedRoute>
+              <Navbar />
               <Home />
             </ProtectedRoute>
           }

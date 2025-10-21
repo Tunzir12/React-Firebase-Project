@@ -57,6 +57,7 @@ const Register = () => {
                 userName: userName, // Or display_name, whatever you prefer
                 email: email,
                 createdAt: serverTimestamp(), // Use serverTimestamp for consistent timestamps
+                kanbanBoards: [], 
             });
 
             console.log("User registered and profile saved to Firestore:", user);

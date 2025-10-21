@@ -13,6 +13,7 @@ dist-ssr
 *.local
 react-firebase-project-c9c8e-firebase-adminsdk-fbsvc-5d35441736.json
 .env.local
+.env
 
 # Editor directories and files
 .vscode/*

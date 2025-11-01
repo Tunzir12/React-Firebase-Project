@@ -1,8 +1,7 @@
-import { db } from '../firebase/admin.js'; // Use import and .js extension
+import { db } from '../firebase/admin.js';
 
 
 export const createBoard = async (userId, title, description) => { // Use 'export const'
-    // 1. Create references
     const boardRef = db.collection('boards').doc(); 
     const userRef = db.collection('users').doc(userId);
 
@@ -19,8 +18,7 @@ export const createBoard = async (userId, title, description) => { // Use 'expor
         ],
         createdAt: db.FieldValue.serverTimestamp(),
     };
-
-    // 2. Use a Firestore Batch 
+    
     const batch = db.batch();
 
     batch.set(boardRef, boardData);

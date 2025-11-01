@@ -3,11 +3,8 @@ import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import fs from 'fs';
 
-// Get current directory path for relative file loading
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-// ⚠️ SECURITY NOTE: The path MUST be correct. Adjust the path below if needed.
 const serviceAccountPath = resolve(__dirname, './react-firebase-project-c9c8e-firebase-adminsdk-fbsvc-5d35441736.json');
 const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
 
@@ -25,5 +22,4 @@ try {
 const auth = admin.auth();
 const db = admin.firestore();
 
-// Export both auth and db instances
 export { auth, db };

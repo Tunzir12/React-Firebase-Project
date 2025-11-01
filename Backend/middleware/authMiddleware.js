@@ -1,6 +1,4 @@
-// backend/middleware/authMiddleware.js (ES Module Syntax - UPDATED)
-
-import { auth } from '../firebase/admin.js'; // Use '.js' extension
+import { auth } from '../firebase/admin.js';
 
 const verifyToken = async (req, res, next) => {
     const authHeader = req.headers.authorization;

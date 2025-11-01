@@ -22,19 +22,14 @@ function App() {
     });
 
     return () => unsubscribe();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
-  // handleLogin will now be called by your Login component after a successful Firebase sign-in
-  // You might not even need to pass a 'token' here, as Firebase manages the session.
-  // The onAuthStateChanged listener will automatically pick up the successful login.
   const handleLogin = () => {
-    // No need to set localStorage here. Firebase handles the session.
-    // The onAuthStateChanged listener will set isAuthenticated to true.
     console.log("Firebase login successful. onAuthStateChanged will update state.");
   }
 
   const ProtectedRoute = ({ children }) => {
-    if (loading) { // While Firebase is checking auth state
+    if (loading) { 
       return <div>Loading authentication...</div>;
     }
     if (!isAuthenticated) {
@@ -44,7 +39,7 @@ function App() {
   }
 
   const PublicRoute = ({ children }) => {
-    if (loading) { // While Firebase is checking auth state
+    if (loading) {
       return <div>Loading authentication...</div>;
     }
     if (isAuthenticated) {
@@ -60,7 +55,6 @@ function App() {
           path="/login"
           element={
             <PublicRoute>
-              {/* Login component will now call Firebase signIn functions */}
               <Login onLogin={handleLogin} />
             </PublicRoute>
           }
@@ -69,7 +63,6 @@ function App() {
           path="/register"
           element={
             <PublicRoute>
-              {/* Register component will now call Firebase createUserWithEmailAndPassword */}
               <Register />
             </PublicRoute>
           }

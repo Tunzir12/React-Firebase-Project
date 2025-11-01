@@ -1,24 +1,22 @@
 import { useState } from "react";
-import { auth } from '../../firebase_config'; // Adjust the path as needed
+import { auth } from '../../firebase_config'; 
 import { signInWithEmailAndPassword ,sendPasswordResetEmail} from 'firebase/auth';
 
-const Login = ({ onLogin }) => { // Keep onLogin prop, though its usage is minimal now due to App.jsx's listener
-    // const navigate = useNavigate(); // Not directly used for navigation within this component anymore
+const Login = ({ onLogin }) => { 
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [showForgotPassword, setShowForgotPassword] = useState(false); // NEW state
-    const [resetEmailSent, setResetEmailSent] = useState(false); // NEW state for confirmation message
+    const [showForgotPassword, setShowForgotPassword] = useState(false); 
+    const [resetEmailSent, setResetEmailSent] = useState(false); 
     const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault(); 
         setLoading(true);
-        setError(null); // Clear any previous errors
+        setError(null); 
 
-        // Basic validation
         if (!email || !password) {
             setError("Please enter both email and password.");
             setLoading(false);
@@ -26,22 +24,16 @@ const Login = ({ onLogin }) => { // Keep onLogin prop, though its usage is minim
         }
 
         try {
-            // Use Firebase's signInWithEmailAndPassword function
             await signInWithEmailAndPassword(auth, email, password);
 
-            // If successful, the onAuthStateChanged listener in App.jsx will trigger,
-            // set isAuthenticated to true, and navigate the user to the home page.
             console.log("Firebase login successful. App.jsx listener will handle state and navigation.");
 
-            // You might still call onLogin here for any immediate, non-navigation-related
-            // actions in the parent App component (e.g., displaying a toast message).
             if (onLogin) {
                 onLogin();
             }
 
         } catch (firebaseError) {
             console.error("Firebase login error:", firebaseError);
-            // Display user-friendly error messages
             let errorMessage = "An unknown error occurred.";
             switch (firebaseError.code) {
                 case 'auth/invalid-email':
@@ -51,7 +43,7 @@ const Login = ({ onLogin }) => { // Keep onLogin prop, though its usage is minim
                     errorMessage = 'This user account has been disabled.';
                     break;
                 case 'auth/user-not-found':
-                case 'auth/wrong-password': // Often grouped for security reasons
+                case 'auth/wrong-password': 
                     errorMessage = 'Invalid email or password.';
                     break;
                 case 'auth/too-many-requests':
@@ -62,7 +54,7 @@ const Login = ({ onLogin }) => { // Keep onLogin prop, though its usage is minim
             }
             setError(errorMessage);
         } finally {
-            setLoading(false); // Always stop loading when done
+            setLoading(false);
         }
     };
     const handlePasswordReset = async (e) => {
@@ -89,10 +81,6 @@ const Login = ({ onLogin }) => { // Keep onLogin prop, though its usage is minim
                     errorMessage = 'The email address is not valid.';
                     break;
                 case 'auth/user-not-found':
-                    // For security, Firebase often reports this as a generic error
-                    // or success, to prevent revealing which emails are registered.
-                    // It's best to show a generic success message even if the email isn't found.
-                    // However, for this example, we'll give specific feedback.
                     errorMessage = 'No user found with that email address.';
                     break;
                 default:
@@ -146,14 +134,14 @@ const Login = ({ onLogin }) => { // Keep onLogin prop, though its usage is minim
                     </button>
                     <div className="text-center">
                         <a
-                            href="#" // Or Link to a dedicated /forgot-password route
-                            onClick={() => setShowForgotPassword(true)} // A state to toggle the form
+                            href="#" 
+                            onClick={() => setShowForgotPassword(true)}
                             className="font-medium text-indigo-600 hover:text-indigo-500 text-sm"
                         >
                             Forgot password?
                         </a>
                     </div>
-                    {/* Optional: Link to register page */}
+                    
                     <p className="mt-4 text-center text-sm text-gray-600">
                         Don't have an account?{' '}
                         <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
@@ -162,7 +150,7 @@ const Login = ({ onLogin }) => { // Keep onLogin prop, though its usage is minim
                     </p>
                 </form>
                                 ) : (
-                    // Forgot Password Form
+                    
                     <form onSubmit={handlePasswordReset} className="space-y-4">
                         <p className="text-sm text-gray-600 mb-4">
                             Enter your email address and we'll send you a link to reset your password.

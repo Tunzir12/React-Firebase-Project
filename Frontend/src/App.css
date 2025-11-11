@@ -6,13 +6,18 @@
     --color-eucalyptus-200: #b7e3ce;
     --color-eucalyptus-300: #88cdb1;
     --color-eucalyptus-400: #56b18f;
-    --color-navbg: #328e6e;
-    --color-navbutton: #e1eebc;
-    --color-navpro: #67ae6e;
     --color-eucalyptus-600: #24775c;
     --color-eucalyptus-700: #1d5f4b;
     --color-eucalyptus-800: #194c3d;
     --color-eucalyptus-900: #153f33;
-    --color-eucalyptus-200: #0b231d;
+    --color-eucalyptus-1000: #0b231d;
+
+    --color-navbg: #328e6e;
+    --color-navbutton: #e1eebc;
+    --color-navpro: #67ae6e;
+    --color-bodybutton: #90c67c;
+    --color-pageBody: #f0e491;
+    --color-textBody: #31694e;
+
 
 }   

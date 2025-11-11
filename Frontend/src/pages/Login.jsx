@@ -93,8 +93,8 @@ const Login = ({ onLogin }) => {
     };
 
     return (
-        <div className="h-screen flex items-center justify-center bg-gray-100">
-            <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
+        <div className="h-screen flex items-center justify-center  bg-navpro">
+            <div className="p-8 bg-pageBody rounded-lg shadow-md w-full max-w-md">
                 <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
                 {!showForgotPassword ? (
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -128,7 +128,7 @@ const Login = ({ onLogin }) => {
                     <button
                         type="submit"
                         disabled={loading} // Disable button while loading
-                        className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                        className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-bodybutton hover:bg-navbg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-eucalyptus-400 disabled:opacity-50"
                     >
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
@@ -136,7 +136,7 @@ const Login = ({ onLogin }) => {
                         <a
                             href="#" 
                             onClick={() => setShowForgotPassword(true)}
-                            className="font-medium text-indigo-600 hover:text-indigo-500 text-sm"
+                            className="font-medium text-eucalyptus-700 hover:text-eucalyptus-900 text-sm"
                         >
                             Forgot password?
                         </a>
@@ -144,7 +144,7 @@ const Login = ({ onLogin }) => {
                     
                     <p className="mt-4 text-center text-sm text-gray-600">
                         Don't have an account?{' '}
-                        <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+                        <a href="/register" className="font-medium text-eucalyptus-700 hover:text-eucalyptus-900">
                             Register here
                         </a>
                     </p>
@@ -162,7 +162,7 @@ const Login = ({ onLogin }) => {
                                 id="forgotPasswordEmail"
                                 value={forgotPasswordEmail}
                                 onChange={(e) => setForgotPasswordEmail(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-eucalyptus-900 focus:ring focus:ring-eucalyptus-800 focus:ring-opacity-50 sm:text-sm"
                                 required
                             />
                         </label>
@@ -179,7 +179,7 @@ const Login = ({ onLogin }) => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-bodybutton hover:bg-navbg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                         >
                             {loading ? 'Sending link...' : 'Send Password Reset Email'}
                         </button>
@@ -187,7 +187,7 @@ const Login = ({ onLogin }) => {
                             <a
                                 href="#"
                                 onClick={(e) => { e.preventDefault(); setShowForgotPassword(false); setError(null); setResetEmailSent(false); }}
-                                className="font-medium text-indigo-600 hover:text-indigo-500 text-sm"
+                                className="font-medium text-eucalyptus-700 hover:text-eucalyptus-900 text-sm"
                             >
                                 Back to login
                             </a>

@@ -13,9 +13,11 @@ const handleLogout = async () => {
 
 const Home = () => {
   return (
-    <div className='h-screen bg-pink-200'>
+    <div className='h-screen flex text-textBody bg-pageBody'>
       <h1>Home</h1>
-      <button onClick={handleLogout}>Log Out</button>
+      <p>0 Kanban boards available</p>
+      <button className='p-20'>Create new Board</button>
+
     </div>
   )
 }

@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import Navbar from './components/Navbar'
 import { auth } from '../firebase_config';
 import { onAuthStateChanged} from 'firebase/auth';
+import Calendar from './pages/Calendar'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -73,6 +74,15 @@ function App() {
             <ProtectedRoute>
               <Navbar />
               <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/calendar"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Calendar />
             </ProtectedRoute>
           }
         />

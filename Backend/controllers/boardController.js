@@ -1,10 +1,13 @@
-import * as boardService from '../services/boardService.js'; // Use import and .js extension
+// backend/controllers/boardController.js (UPDATED)
+
+import * as boardService from '../services/boardService.js';
 
 /**
  * Handles POST /api/boards/create
  * Creates a new Kanban board.
  */
-export const createBoard = async (req, res) => { // Use 'export const'
+export const createBoard = async (req, res) => {
+    // ... (Your existing createBoard logic remains here)
     const { title, description } = req.body;
     const userId = req.user.uid; 
 
@@ -24,10 +27,31 @@ export const createBoard = async (req, res) => { // Use 'export const'
     }
 };
 
-// Placeholder for getting a user's boards (Using 'export const')
+/**
+ * Handles GET /api/boards/:boardId
+ * Fetches a single Kanban board by ID, ensuring the user is a member.
+ */
+export const getBoard = async (req, res) => {
+    const { boardId } = req.params; // Get boardId from the URL parameters
+    const userId = req.user.uid;     // Get userId from the authentication middleware (req.user)
+
+    try {
+        const board = await boardService.getBoardById(boardId, userId);
+
+        if (!board) {
+            // Check if the board was not found OR if the user was unauthorized (service returns null in both cases)
+            return res.status(404).send({ error: 'Board not found or access denied.' });
+        }
+
+        res.status(200).send(board);
+    } catch (error) {
+        console.error('Controller error fetching board:', error);
+        res.status(500).send({ error: 'Failed to fetch board due to a server error.' });
+    }
+};
+
+// Placeholder for getting a user's boards 
 export const getUserBoards = async (req, res) => { 
-    // const userId = req.user.uid;
-    // const boards = await boardService.getBoardsByUserId(userId);
-    // res.status(200).send(boards);
-    res.status(200).send([]); // Placeholder response
+    // ... (This function remains as a placeholder for later implementation)
+    res.status(200).send([]);
 }

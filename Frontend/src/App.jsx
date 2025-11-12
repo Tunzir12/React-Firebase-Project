@@ -7,6 +7,8 @@ import Navbar from './components/Navbar'
 import { auth } from '../firebase_config';
 import { onAuthStateChanged} from 'firebase/auth';
 import Calendar from './pages/Calendar'
+import BoardList from './pages/BoardList'
+import Board from './components/Board'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -83,6 +85,24 @@ function App() {
             <ProtectedRoute>
               <Navbar />
               <Calendar />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/kanban"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <BoardList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/kanban/:boardId"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Board />
             </ProtectedRoute>
           }
         />

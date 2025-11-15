@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { auth , getUserProfile } from '../../firebase_config';
+import { auth } from '../../firebase_config';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 const navStyles = {
@@ -31,7 +31,6 @@ const navStyles = {
     borderRadius: '4px',
   },
   dropdownItem: {
-
     padding: '8px 16px',
     textDecoration: 'none',
     display: 'block',
@@ -52,7 +51,6 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -66,11 +64,12 @@ const Navbar = () => {
 
   useEffect(() => {
     if (user && user.uid) {
-      const fetchProfile = async () => {
-        const profileData = await getUserProfile(user.uid);
-        setUserProfile(profileData);
+      // Mock user profile for now - replace with real API call later
+      const mockUserProfile = {
+        firstName: user.displayName || user.email.split('@')[0],
+        email: user.email
       };
-      fetchProfile();
+      setUserProfile(mockUserProfile);
     }
   }, [user]);
 
@@ -88,7 +87,7 @@ const Navbar = () => {
     setIsDropdownOpen(prev => !prev);
   };
 
-// Determine what text to display on the button
+  // Determine what text to display on the button
   const getButtonText = () => {
     if (userProfile && userProfile.firstName) {
       return userProfile.firstName;

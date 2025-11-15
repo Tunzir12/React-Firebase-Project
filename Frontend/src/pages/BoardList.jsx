@@ -1,18 +1,21 @@
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../../firebase_config'; // Firebase Auth instance
-import useAuthState from 'react-firebase-hooks/auth'
+import { auth } from '../../firebase_config';
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { useState } from 'react';
-
-// Assuming you use an environment variable for your backend URL
-const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api';
 
 const BoardList = () => {
   const [user, loading, error] = useAuthState(auth);
   const [isCreating, setIsCreating] = useState(false);
   const navigate = useNavigate();
 
+  // Mock boards data - replace with real API calls later
+  const [mockBoards, setMockBoards] = useState([
+    { id: 'board-1', title: 'Project Alpha', description: 'Main project board' },
+    { id: 'board-2', title: 'Personal Tasks', description: 'Daily tasks' }
+  ]);
+
   /**
-   * Sends a request to the backend to create a new board with default values.
+   * Mock function to create a new board - replace with real API later
    */
   const handleCreateBoard = async () => {
     if (loading || !user) {
@@ -23,39 +26,23 @@ const BoardList = () => {
     setIsCreating(true);
 
     try {
-      // 1. Get the Firebase ID Token for authentication
-      const idToken = await user.getIdToken();
-
-      // 2. Define default board data
-      const defaultBoard = {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Create mock board data
+      const newBoard = {
+        id: `board-${Date.now()}`,
         title: 'Untitled Board',
         description: 'New Kanban board for tracking tasks.',
-        // The ownerId and default columns are handled by the backend service.
+        ownerId: user.uid,
+        createdAt: new Date().toISOString()
       };
 
-      // 3. Send the request to your protected Express endpoint
-      const response = await fetch(`${API_URL}/boards/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Attach the ID token as a Bearer token
-          'Authorization': `Bearer ${idToken}`, 
-        },
-        body: JSON.stringify(defaultBoard),
-      });
+      // Add to mock boards (replace with real API call later)
+      setMockBoards(prev => [...prev, newBoard]);
 
-      if (!response.ok) {
-        // Handle backend validation errors or 403/401 errors
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create board on server.');
-      }
-
-      // 4. Extract the created board data
-      const data = await response.json();
-      const newBoardId = data.board.id;
-
-      // 5. Navigate to the newly created board page
-      navigate(`/kanban/${newBoardId}`);
+      // Navigate to the new board
+      navigate(`/kanban/${newBoard.id}`);
 
     } catch (err) {
       console.error('Error creating board:', err.message);
@@ -63,6 +50,10 @@ const BoardList = () => {
     } finally {
       setIsCreating(false);
     }
+  };
+
+  const handleNavigateToBoard = (boardId) => {
+    navigate(`/kanban/${boardId}`);
   };
 
   if (loading) return <div>Loading boards...</div>;
@@ -87,10 +78,32 @@ const BoardList = () => {
         {isCreating ? 'Creating...' : '➕ Create New Board'}
       </button>
 
-      {/* Placeholder for listing existing boards */}
+      {/* Display existing boards */}
       <div style={{ marginTop: '30px' }}>
-        {/* You will fetch and map through existing boards here */}
-        <h2>Existing Boards Placeholder</h2>
+        <h2>Your Boards</h2>
+        {mockBoards.length === 0 ? (
+          <p>No boards yet. Create your first one!</p>
+        ) : (
+          <div style={{ display: 'grid', gap: '15px', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))' }}>
+            {mockBoards.map(board => (
+              <div 
+                key={board.id}
+                onClick={() => handleNavigateToBoard(board.id)}
+                style={{
+                  padding: '20px',
+                  border: '1px solid #ddd',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  backgroundColor: 'white',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                }}
+              >
+                <h3 style={{ margin: '0 0 10px 0' }}>{board.title}</h3>
+                <p style={{ margin: 0, color: '#666' }}>{board.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

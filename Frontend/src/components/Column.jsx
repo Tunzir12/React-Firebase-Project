@@ -18,7 +18,8 @@ const columnStyle = {
     boxShadow: '0 1px 2px 0 rgba(9,30,66,.13)',
 };
 
-const Column = ({ columnId, title, cards }) => {
+const Column = ({ columnId, title, cards, onAddCard, onDeleteColumn, onEditColumn }) => {
+
     // 1. Make the Column sortable for reordering columns (Horizontal DND)
     const {
         attributes,
@@ -50,21 +51,40 @@ const Column = ({ columnId, title, cards }) => {
     };
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            <h2>{title} ({cards.length})</h2>
-            
-            {/* SortableContext for reordering cards within this column */}
-            <SortableContext 
-                items={cards.map(card => card.id)} 
-                // Use vertical strategy for cards within a column
-                strategy={verticalListSortingStrategy} 
-            >
-                {cards.map(card => (
-                    <Card key={card.id} id={card.id} content={card.content} />
-                ))}
-            </SortableContext>
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      {/* Column Header with Actions */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+        <h3 style={{ margin: 0 }}>{title}</h3>
+        <div style={{ display: 'flex', gap: '5px' }}>
+          <button 
+            onClick={onAddCard}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px' }}
+          >
+            ➕
+          </button>
+          <button 
+            onClick={onDeleteColumn}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px' }}
+          >
+            🗑️
+          </button>
         </div>
+      </div>
+      
+      {/* Cards */}
+      <SortableContext items={cards.map(card => card.id)} strategy={verticalListSortingStrategy}>
+        {cards.map(card => (
+          <Card 
+            key={card.id} 
+            id={card.id} 
+            content={card.content}
+            onDelete={card.onDelete}
+          />
+        ))}
+      </SortableContext>
+    </div>
     );
 };
 
 export default Column;
+

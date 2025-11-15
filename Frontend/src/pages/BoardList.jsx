@@ -1,7 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase_config';
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // ✅ Add useEffect here
+
+//mock api
+import { localStorageAPI } from '../api/localStorageAPI';
 
 const BoardList = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -9,14 +12,19 @@ const BoardList = () => {
   const navigate = useNavigate();
 
   // Mock boards data - replace with real API calls later
-  const [mockBoards, setMockBoards] = useState([
-    { id: 'board-1', title: 'Project Alpha', description: 'Main project board' },
-    { id: 'board-2', title: 'Personal Tasks', description: 'Daily tasks' }
-  ]);
+  const [mockBoards, setMockBoards] = useState([]); // ✅ Start with empty array
 
-  /**
-   * Mock function to create a new board - replace with real API later
-   */
+  useEffect(() => {
+    if (user) {
+      localStorageAPI.initializeSampleData(user.uid);
+      const loadBoards = async () => {
+        const userBoards = await localStorageAPI.getBoards(user.uid);
+        setMockBoards(userBoards);
+      };
+      loadBoards();
+    }
+  }, [user]);
+
   const handleCreateBoard = async () => {
     if (loading || !user) {
       console.warn("User not loaded or not authenticated.");
@@ -24,26 +32,11 @@ const BoardList = () => {
     }
 
     setIsCreating(true);
-
+    
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Create mock board data
-      const newBoard = {
-        id: `board-${Date.now()}`,
-        title: 'Untitled Board',
-        description: 'New Kanban board for tracking tasks.',
-        ownerId: user.uid,
-        createdAt: new Date().toISOString()
-      };
-
-      // Add to mock boards (replace with real API call later)
+      const newBoard = await localStorageAPI.createBoard('New Board', '', user.uid);
       setMockBoards(prev => [...prev, newBoard]);
-
-      // Navigate to the new board
       navigate(`/kanban/${newBoard.id}`);
-
     } catch (err) {
       console.error('Error creating board:', err.message);
       alert(`Could not create board: ${err.message}`);

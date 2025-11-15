@@ -14,7 +14,7 @@ const cardStyle = {
     border: '1px solid #ccc'
 };
 
-const Card = ({ id, content }) => {
+const Card = ({ id, content, onDelete }) => {
     const {
         attributes,
         listeners,
@@ -30,9 +30,20 @@ const Card = ({ id, content }) => {
     };
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            {content}
-        </div>
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>{content}</span>
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+        >
+          ❌
+        </button>
+      </div>
+    </div>
     );
 };
 
